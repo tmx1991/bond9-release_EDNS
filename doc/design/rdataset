@@ -1,0 +1,33 @@
+Copyright (C) 1999-2001, 2004, 2016  Internet Systems Consortium, Inc. ("ISC")
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+$Id: rdataset,v 1.6 2004/03/05 05:04:46 marka Exp $
+
+Need way to "dup" an rdataset (i.e. different rdataset handle, same underlying
+data).
+
+DB addnode routine should take an rdataset *, which, if non-NULL, would be
+attached to the added rdataset.
+
+Need credibility, security status.
+
+Cache security status in rdataset.  Have rdataset supply methods to get/set
+the security status.  For RBTDB, it goes something like this:
+
+	get:
+		if (cached status == pending)
+			lock node lock
+			read rdataset's status
+			unlock node lock
+			update cached status
+		return (cached status)
+
+	set:
+		require that status cannot go backwards (e.g. OK to pending)
+		lock node lock
+		write rdataset's status
+		unlock node lock
+		update cached status

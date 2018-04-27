@@ -1,0 +1,168 @@
+<!DOCTYPE book [
+<!ENTITY Scaron "&#x160;">
+<!ENTITY scaron "&#x161;">
+<!ENTITY ccaron "&#x10D;">
+<!ENTITY aacute "&#x0E1;">
+<!ENTITY iacute "&#x0ED;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY ouml "&#xf6;">]>
+<!--
+ - Copyright (C) 2014-2018  Internet Systems Consortium, Inc. ("ISC")
+ -
+ - This Source Code Form is subject to the terms of the Mozilla Public
+ - License, v. 2.0. If a copy of the MPL was not distributed with this
+ - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+
+<section xmlns:db="http://docbook.org/ns/docbook" version="5.0"><info/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="noteversion.xml"/>
+  <section xml:id="relnotes_intro"><info><title>Introduction</title></info>
+    <para>
+      BIND 9.13 is unstable development release of BIND.
+      This document summarizes new features and functional changes that
+      have been introduced on this branch.  With each development
+      release leading up to the stable BIND 9.14 release, this document
+      will be updated with additional features added and bugs fixed.
+    </para>
+  </section>
+
+  <section xml:id="relnotes_download"><info><title>Download</title></info>
+    <para>
+      The latest versions of BIND 9 software can always be found at
+      <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.isc.org/downloads/">http://www.isc.org/downloads/</link>.
+      There you will find additional information about each release,
+      source code, and pre-compiled versions for Microsoft Windows
+      operating systems.
+    </para>
+  </section>
+
+  <section xml:id="relnotes_security"><info><title>Security Fixes</title></info>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Addresses could be referenced after being freed during resolver
+	  processing, causing an assertion failure. The chances of this
+	  happening were remote, but the introduction of a delay in
+	  resolution increased them. This bug is disclosed in
+	  CVE-2017-3145. [RT #46839]
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  update-policy rules that otherwise ignore the name field now
+	  require that it be set to "." to ensure that any type list
+	  present is properly interpreted.  If the name field was omitted
+	  from the rule declaration and a type list was present it wouldn't
+	  be interpreted as expected.
+	</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section xml:id="relnotes_features"><info><title>New Features</title></info>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  None.
+	</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section xml:id="relnotes_removed"><info><title>Removed Features</title></info>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  <command>dnssec-keygen</command> can no longer generate HMAC
+	  keys for TSIG authentication. Use <command>tsig-keygen</command>
+	  to generate these keys. [RT #46404]
+	</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section xml:id="relnotes_changes"><info><title>Feature Changes</title></info>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Zone types <command>primary</command> and
+	  <command>secondary</command> are now available as synonyms for
+	  <command>master</command> and <command>slave</command>,
+	  respectively, in <filename>named.conf</filename>.
+	</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section xml:id="relnotes_bugs"><info><title>Bug Fixes</title></info>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  When answering authoritative queries, <command>named</command>
+	  does not return the target of a cross-zone CNAME between two
+	  locally served zones; this prevents accidental cache poisoning.
+	  This same restriction was incorrectly applied to recursive
+	  queries as well; this has been fixed. [RT #47078]
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Attempting to validate improperly unsigned CNAME responses
+	  from secure zones could cause a validator loop. This caused
+	  a delay in returning SERVFAIL and also increased the chances
+	  of encountering the crash bug described in CVE-2017-3145.
+	  [RT #46839]
+	</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section xml:id="relnotes_license"><info><title>License</title></info>
+    <para>
+      BIND is open source software licenced under the terms of the Mozilla
+      Public License, version 2.0 (see the <filename>LICENSE</filename>
+      file for the full text).
+    </para>
+    <para>
+      The license requires that if you make changes to BIND and distribute
+      them outside your organization, those changes must be published under
+      the same license. It does not require that you publish or disclose
+      anything other than the changes you have made to our software.  This
+      requirement does not affect anyone who is using BIND, with or without
+      modifications, without redistributing it, nor anyone redistributing
+      BIND without changes.
+    </para>
+    <para>
+      Those wishing to discuss license compliance may contact ISC at
+      <link
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xlink:href="https://www.isc.org/mission/contact/">
+	https://www.isc.org/mission/contact/</link>.
+    </para>
+  </section>
+
+  <section xml:id="end_of_life"><info><title>End of Life</title></info>
+    <para>
+      BIND 9.13 is an unstable development branch. When its development
+      is complete, it will be renamed to BIND 9.14, which will be a
+      stable branch.
+    </para>
+    <para>
+      The end of life date for BIND 9.14 has not yet been determined.
+      For those needing long term support, the current Extended Support
+      Version (ESV) is BIND 9.11, which will be supported until December
+      2021. See
+      <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.isc.org/downloads/software-support-policy/">https://www.isc.org/downloads/software-support-policy/</link>
+      for details of ISC's software support policy.
+    </para>
+  </section>
+
+  <section xml:id="relnotes_thanks"><info><title>Thank You</title></info>
+    <para>
+      Thank you to everyone who assisted us in making this release possible.
+      If you would like to contribute to ISC to assist us in continuing to
+      make quality open source software, please visit our donations page at
+      <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.isc.org/donate/">http://www.isc.org/donate/</link>.
+    </para>
+  </section>
+</section>
